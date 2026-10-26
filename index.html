@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>-</title>
+  <title>VUS Hub</title>
   <style>
-    body { 
+    body {
       font-family: system-ui, sans-serif; 
       display: flex; 
       justify-content: center; 
@@ -11,47 +11,53 @@
       height: 100vh; 
       margin: 0; 
       background: #000000;
+      color: #ffffff;
     }
-    #hub { 
-      padding: 15px 32px; 
-      font-size: 18px; 
-      font-weight: bold; 
-      background: #00cc66; 
-      color: white; 
-      border: none; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    main {
+      width: min(460px, calc(100% - 32px));
+      text-align: center;
+    }
+    #hub {
+      display: inline-block;
+      padding: 15px 32px;
+      font-size: 18px;
+      font-weight: bold;
+      background: #00cc66;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-decoration: none;
     }
     #hub:hover { background: #00994d; }
+    #fallback {
+      display: block;
+      margin-top: 16px;
+      color: #8ee6b8;
+    }
+    #status {
+      min-height: 1.5em;
+      color: #bbbbbb;
+    }
   </style>
 </head>
 <body>
-
-  <button id="hub">Open VUS Hub</button>
+  <main>
+    <a id="hub" href="https://vus-orcin.vercel.app/" target="_blank" rel="noopener">Open VUS Hub</a>
+    <p id="status">Click the button to open the current deployed hub.</p>
+    <a id="fallback" href="https://cra-z-gaming.github.io/VUS/" target="_blank" rel="noopener">
+      Use the GitHub Pages mirror
+    </a>
+  </main>
 
   <script>
-    document.getElementById("hub").onclick = async () => {
-      try {
-        const hubCode = await fetch(
-          "https://raw.githubusercontent.com/Cra-Z-Gaming/VUS/main/index.html?v=" + Date.now()
-        ).then(r => {
-          if(!r.ok) throw new Error("Network issue");
-          return r.text();
-        });
-        
-        const win = window.open("about:blank", "_blank");
-        if (win) {
-          win.document.open();
-          win.document.write(hubCode);
-          win.document.close();
-        } else {
-          alert("Popup blocked! Please allow popups for this offline file.");
-        }
-      } catch(e) {
-        alert("Failed to fetch updates. Check your internet connection.");
-      }
-    };
+    const hub = document.getElementById("hub");
+    const status = document.getElementById("status");
+
+    hub.addEventListener("click", () => {
+      status.textContent = "The deployed hub opened in a new tab.";
+    });
   </script>
 </body>
 </html>
