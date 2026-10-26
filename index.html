@@ -44,7 +44,7 @@
 </head>
 <body>
   <main>
-    <a id="hub" href="https://vus-orcin.vercel.app/" target="_blank" rel="noopener">Open VUS Hub</a>
+    <button id="hub" type="button">Open VUS Hub</button>
     <p id="status">Click the button to open the current deployed hub.</p>
     <a id="fallback" href="https://cra-z-gaming.github.io/VUS/" target="_blank" rel="noopener">
       Use the GitHub Pages mirror
@@ -54,10 +54,22 @@
   <script>
     const hub = document.getElementById("hub");
     const status = document.getElementById("status");
+    const HUB_URL = "https://vus-orcin.vercel.app/";
+    const FALLBACK_URL = "https://cra-z-gaming.github.io/VUS/";
 
     hub.addEventListener("click", () => {
-      status.textContent = "The deployed hub opened in a new tab.";
+      const win = window.open("about:blank", "_blank");
+      if (!win) {
+        status.textContent = "Popup blocked. Allow popups for this launcher, then try again.";
+        return;
+      }
+
+      win.opener = null;
+      win.location.replace(HUB_URL);
+      status.textContent = "Opening the deployed hub in a new tab.";
     });
+
+    document.getElementById("fallback").href = FALLBACK_URL;
   </script>
 </body>
 </html>
